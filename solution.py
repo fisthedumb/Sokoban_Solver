@@ -28,3 +28,19 @@ def solve(initial_state, timebound=120):
                 frontier.append(child)
 
     return False
+
+def h(state):
+    total = 0
+    
+    for bx, by in state.boxes:
+        distance = min(
+            abs(bx - sx) + abs(by - sy)
+            for sx, sy in state.storage
+        )
+        total += distance
+
+    return total
+    # raise NotImplementedError("Implement your Sokoban solver")
+
+def f(state):
+    return state.gval + h(state)
