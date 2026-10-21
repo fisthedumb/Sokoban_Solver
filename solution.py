@@ -1,32 +1,49 @@
 """Student entry point. See README.md for the API and scoring rules."""
 
-import time
-from collections import deque
+import time 
+import heapq
+from itertools import count
 from sokoban import sokoban_goal_state
-
 
 def solve(initial_state, timebound=120):
     """Return a goal SokobanState with a valid parent chain, or False."""
+
     deadline = time.monotonic() + timebound
-    frontier = deque([initial_state])
-    visited = {initial_state.hashable_state()}
+
+    order = count()
+    frontier = [(f(initial_state), next(order), initial_state)]
+    best_g = {}
+    initial_key = initial_state.hashable_state()
+    best_g[initial_key] = initial_state.gval
 
     while frontier:
         if time.monotonic() >= deadline:
             return False
 
-        current = frontier.popleft()
+        item = heapq.heappop(frontier)
+        current = item[2]
+
+        current_key = current.hashable_state()
+        if current.gval > best_g[current_key]:
+            continue        
 
         if sokoban_goal_state(current):
             return current
-
+        
         for child in current.successors():
             key = child.hashable_state()
 
-            if key not in visited:
-                visited.add(key)
-                frontier.append(child)
+            if key in best_g:
+                if child.gval >= best_g[key]:
+                    continue
 
+            best_g[key] = child.gval
+
+            priority = f(child)
+            sequence = next(order)
+            item = (priority, sequence, child)
+
+            heapq.heappush(frontier, item)
     return False
 
 def h(state):
