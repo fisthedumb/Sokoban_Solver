@@ -1,5 +1,23 @@
 # Project Sokoban:
 
+## GUI xem và đánh giá lời giải
+
+Chạy `python gui.py` (dùng Tkinter có sẵn trong bản cài Python thông thường).
+Chọn map, nhập giới hạn thời gian rồi nhấn **Giải** để chạy `solution.solve()`.
+Kết quả hiển thị thời gian tìm kiếm, số bước và số lần đẩy; đường đi được kiểm tra
+bằng `validation.py` trước khi cho phát lại.
+
+Dùng **Phát / Tạm dừng**, **Về đầu**, **◀ Bước**, **Bước ▶** hoặc phím mũi tên
+trái/phải để xem đường đi. Chọn tốc độ theo mili giây mỗi bước.
+Bật **Tự điều khiển từ bước hiện tại**, chọn số robot rồi dùng phím mũi tên
+để tự chơi từ trạng thái đang xem (nhấp vào bàn chơi nếu bàn phím đang ở ô nhập).
+Nút **◀ Bước** hoàn tác; đi hướng khác sau khi hoàn tác sẽ thay nhánh tự chơi.
+Nhấn **Quay lại lời giải** hoặc bỏ chọn chế độ tự điều khiển để khôi phục
+đường đi gốc và vị trí replay trước khi tự chơi.
+**Dừng giải** hủy tìm kiếm hiện tại; chuyển map cũng tự dừng tìm kiếm.
+Mỗi lần nhấn **Giải** sẽ nạp lại `solution.py`, nên có thể sửa solver rồi thử lại
+mà không cần đóng GUI. File GUI chỉ phục vụ thử nghiệm, bài nộp vẫn là `solution.py`.
+
 Thiết kế chương trình giải Sokoban. Sinh viên tự lựa chọn thuật toán, heuristic,
 cấu trúc dữ liệu và chiến lược.
 

@@ -22,7 +22,6 @@ def solve(initial_state, timebound=120):
 
         item = heapq.heappop(frontier)
         current = item[2]
-
         current_key = current.hashable_state()
         if current.gval > best_g[current_key]:
             continue        
@@ -33,31 +32,22 @@ def solve(initial_state, timebound=120):
         for child in current.successors():
             key = child.hashable_state()
 
-            if key in best_g:
-                if child.gval >= best_g[key]:
-                    continue
+            if key in best_g and child.gval >= best_g[key]:
+                continue
 
             best_g[key] = child.gval
-
-            priority = f(child)
-            sequence = next(order)
-            item = (priority, sequence, child)
-
-            heapq.heappush(frontier, item)
+            heapq.heappush(frontier, (f(child), next(order), child))
     return False
 
 def h(state):
     total = 0
     
     for bx, by in state.boxes:
-        distance = min(
-            abs(bx - sx) + abs(by - sy)
-            for sx, sy in state.storage
-        )
+        distance = min(abs(bx - sx) + abs(by - sy)
+                       for sx, sy in state.storage
+                       )
         total += distance
-
     return total
-    # raise NotImplementedError("Implement your Sokoban solver")
 
 def f(state):
     return state.gval + h(state)
